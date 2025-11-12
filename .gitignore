@@ -1,0 +1,64 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.log
+
+# Visual Studio generated files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.userprefs
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+project.lock.json
+project.fragment.lock.json
+artifacts/
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Rider / JetBrains IDEs
+.idea/
+*.sln.iml
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# Cache
+*.db
+*.db-wal
+*.db-shm
+
+# Build artifacts
+*.dll
+*.exe
+*.app
+*.pdb
+*.cache
+*.ilk
+*.idb
+*.lib
+*.exp
+
+# Publish output
+publish/
+out/
+dist/
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Other
+_ReSharper*/
+*.DotSettings.user
