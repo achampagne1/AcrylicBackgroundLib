@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcrylicBackgroundLib", "AcrylicBackgroundLib\AcrylicBackgroundLib.csproj", "{4AE65051-DD60-4A4E-B6AA-0888FBF0E1FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcrylicBackgroundLib", "AcrylicBackgroundLib.csproj", "{0BE9807C-825A-4639-80E5-339D72AA08ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4AE65051-DD60-4A4E-B6AA-0888FBF0E1FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4AE65051-DD60-4A4E-B6AA-0888FBF0E1FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4AE65051-DD60-4A4E-B6AA-0888FBF0E1FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4AE65051-DD60-4A4E-B6AA-0888FBF0E1FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BE9807C-825A-4639-80E5-339D72AA08ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BE9807C-825A-4639-80E5-339D72AA08ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BE9807C-825A-4639-80E5-339D72AA08ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BE9807C-825A-4639-80E5-339D72AA08ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {9E0FB451-5813-474F-8B56-20EDDF4AE393}
+		SolutionGuid = {AB0101B6-A461-44A3-B520-1038ED4F1156}
 	EndGlobalSection
 EndGlobal
