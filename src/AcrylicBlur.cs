@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace BlurredLoginUIWindow.Class
+namespace AcrylicBackgroundLib
 {
     internal enum AccentState
     {

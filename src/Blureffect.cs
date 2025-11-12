@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace BlurredLoginUIWindow.Class
+namespace AcrylicBackgroundLib
 {
-    class WindowBlureffect
+    public class BlurEffect
     {
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
@@ -51,11 +51,16 @@ namespace BlurredLoginUIWindow.Class
         }
 
         //to call blur in our desired window
-        internal WindowBlureffect(Window window, AccentState accentState)
+        internal BlurEffect(Window window, AccentState accentState)
         {
             this.window = window;
             this.accentState = accentState;
             EnableBlur();
+        }
+
+        public static void print()
+        {
+            Console.WriteLine("Hello from Blureffect class");
         }
     }
 }
