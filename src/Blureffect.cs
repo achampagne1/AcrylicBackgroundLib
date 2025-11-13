@@ -1,66 +1,101 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 
 namespace AcrylicBackgroundLib
 {
-    public class BlurEffect
+    public static class BlurEffect
     {
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
-        private uint _blurOpacity;
-        public double BlurOpacity
+
+        // --- Attached Dependency Properties ---
+        public static readonly DependencyProperty IsEnabledProperty =
+            DependencyProperty.RegisterAttached(
+                "IsEnabled",
+                typeof(bool),
+                typeof(BlurEffect),
+                new PropertyMetadata(false, OnBlurPropertyChanged));
+
+        public static readonly DependencyProperty AccentStateProperty =
+            DependencyProperty.RegisterAttached(
+                "AccentState",
+                typeof(int),
+                typeof(BlurEffect),
+                new PropertyMetadata(3, OnBlurPropertyChanged));
+
+        public static readonly DependencyProperty BlurOpacityProperty =
+            DependencyProperty.RegisterAttached(
+                "BlurOpacity",
+                typeof(int),
+                typeof(BlurEffect),
+                new PropertyMetadata(0x99, OnBlurPropertyChanged));
+
+        public static readonly DependencyProperty BackgroundColorProperty =
+            DependencyProperty.RegisterAttached(
+                "BackgroundColor",
+                typeof(int),
+                typeof(BlurEffect),
+                new PropertyMetadata(0x000000, OnBlurPropertyChanged));
+
+        // --- Getters/Setters ---
+        public static bool GetIsEnabled(DependencyObject obj) => (bool)obj.GetValue(IsEnabledProperty);
+        public static void SetIsEnabled(DependencyObject obj, bool value) => obj.SetValue(IsEnabledProperty, value);
+
+        public static int GetAccentState(DependencyObject obj) => (int)obj.GetValue(AccentStateProperty);
+        public static void SetAccentState(DependencyObject obj, int value) => obj.SetValue(AccentStateProperty, value);
+
+        public static int GetBlurOpacity(DependencyObject obj) => (int)obj.GetValue(BlurOpacityProperty);
+        public static void SetBlurOpacity(DependencyObject obj, int value) => obj.SetValue(BlurOpacityProperty, value);
+
+        public static int GetBackgroundColor(DependencyObject obj) => (int)obj.GetValue(BackgroundColorProperty);
+        public static void SetBackgroundColor(DependencyObject obj, int value) => obj.SetValue(BackgroundColorProperty, value);
+
+        // --- Property Changed Logic ---
+        private static void OnBlurPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            get { return _blurOpacity; }
-            set { _blurOpacity=(uint)value; EnableBlur(); }
+            if (d is not Window window)
+                return;
+
+            // Only hook once
+            window.SourceInitialized -= Window_SourceInitialized;
+            if (GetIsEnabled(window))
+            {
+                window.SourceInitialized += Window_SourceInitialized;
+                if (window.IsInitialized)
+                    ApplyBlur(window);
+            }
         }
 
-        private uint _blurBackgroundColor = 0x990000;
-
-        private Window window { get; set; }
-        private AccentState accentState { get; set; }
-        internal void EnableBlur()
+        private static void Window_SourceInitialized(object? sender, EventArgs e)
         {
-            var windowHelper = new WindowInteropHelper(window);
-            var accent = new AccentPolicy();
+            if (sender is Window window)
+                ApplyBlur(window);
+        }
 
+        private static void ApplyBlur(Window window)
+        {
+            var accent = new AccentPolicy
+            {
+                AccentState = GetAccentState(window),
+                GradientColor = 0//(GetBlurOpacity(window) << 24) | (GetBackgroundColor(window) & 0xFFFFFF)
+            };
 
-            //To  enable blur the image behind the window
-            accent.AccentState = accentState;
-            accent.GradientColor = (_blurOpacity << 24) | (_blurBackgroundColor & 0xFFFFFF); /*(White mask 0xFFFFFF)*/
-
-
-            var accentStructSize = Marshal.SizeOf(accent);
-
-            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+            int accentStructSize = Marshal.SizeOf(accent);
+            IntPtr accentPtr = Marshal.AllocHGlobal(accentStructSize);
             Marshal.StructureToPtr(accent, accentPtr, false);
 
-            var data = new WindowCompositionAttributeData();
-            data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
-            data.SizeOfData = accentStructSize;
-            data.Data = accentPtr;
+            var data = new WindowCompositionAttributeData
+            {
+                Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY,
+                SizeOfData = accentStructSize,
+                Data = accentPtr
+            };
 
-            SetWindowCompositionAttribute(windowHelper.Handle, ref data);
-
+            var helper = new WindowInteropHelper(window);
+            SetWindowCompositionAttribute(helper.Handle, ref data);
             Marshal.FreeHGlobal(accentPtr);
-        }
-
-        //to call blur in our desired window
-        internal BlurEffect(Window window, AccentState accentState)
-        {
-            this.window = window;
-            this.accentState = accentState;
-            EnableBlur();
-        }
-
-        public static void print()
-        {
-            Console.WriteLine("Hello from Blureffect class");
         }
     }
 }
