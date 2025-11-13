@@ -61,6 +61,7 @@ namespace AcrylicBackgroundLib
 
             // Only hook once
             window.SourceInitialized -= sourceInitialized;
+            window.WindowStyle = WindowStyle.None;
             if (GetIsEnabled(window))
                 window.SourceInitialized += sourceInitialized;
         }
