@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace AcrylicBackgroundLib
 {
@@ -59,27 +60,26 @@ namespace AcrylicBackgroundLib
                 return;
 
             // Only hook once
-            window.SourceInitialized -= Window_SourceInitialized;
+            window.SourceInitialized -= sourceInitialized;
             if (GetIsEnabled(window))
+                window.SourceInitialized += sourceInitialized;
+        }
+
+        private static void sourceInitialized(object? sender, EventArgs e)
+        {
+            if (sender is Window window)
             {
-                window.SourceInitialized += Window_SourceInitialized;
-                if (window.IsInitialized)
-                    ApplyBlur(window);
+                applyBlur(window);
             }
         }
 
-        private static void Window_SourceInitialized(object? sender, EventArgs e)
+        private static void applyBlur(Window window)
         {
-            if (sender is Window window)
-                ApplyBlur(window);
-        }
-
-        private static void ApplyBlur(Window window)
-        {
+            window.Background = Brushes.Transparent;
             var accent = new AccentPolicy
             {
                 AccentState = GetAccentState(window),
-                GradientColor = 0//(GetBlurOpacity(window) << 24) | (GetBackgroundColor(window) & 0xFFFFFF)
+                GradientColor = ((uint)percentToByte(GetBlurOpacity(window)) << 24) | (uint)GetBackgroundColor(window) & 0xFFFFFF
             };
 
             int accentStructSize = Marshal.SizeOf(accent);
@@ -96,6 +96,13 @@ namespace AcrylicBackgroundLib
             var helper = new WindowInteropHelper(window);
             SetWindowCompositionAttribute(helper.Handle, ref data);
             Marshal.FreeHGlobal(accentPtr);
+        }
+
+        private static byte percentToByte(int value)
+        {
+            if(value < 0) value = 0;   
+            if(value > 100) value = 100;
+            return (byte)(value * 255 / 100);
         }
     }
 }
