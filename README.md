@@ -5,7 +5,7 @@ A tiny, simple WPF helper library that enables Windows 10/11 acrylic blur on any
 ![Example](images/example.JPG)
 
 The library is designed to be minimal, flexible, and non-opinionated.
-You keep full control over your UI — this library only applies the blur.
+You keep full control over your UI, this library only applies the blur.
 
 ⭐ Features
 
@@ -19,7 +19,7 @@ You keep full control over your UI — this library only applies the blur.
 
 ✔️ Automatically sets WindowStyle=None so you are free to design your own chrome
 
-✔️ Extremely simple to use — zero C# code required
+✔️ Extremely simple to use, zero C# code required
 
 ✔️ Works on .NET 6/7/8 WPF
 
@@ -90,7 +90,7 @@ This means:
 
 You must implement your own Minimize, Maximize, and Close buttons
 
-This is intentional — the library stays simple and does not force any UI design
+This is intentional, the library stays simple and does not force any UI design
 
 All top-level children get a nearly-transparent background
 
