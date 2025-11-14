@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 
@@ -97,6 +98,26 @@ namespace AcrylicBackgroundLib
             var helper = new WindowInteropHelper(window);
             SetWindowCompositionAttribute(helper.Handle, ref data);
             Marshal.FreeHGlobal(accentPtr);
+
+            //for preventing minimizing on empty space click
+            if (window.Content is Panel panel)
+            {
+                foreach (UIElement child in panel.Children)
+                {
+                    switch (child)
+                    {
+                        case Panel p:
+                            p.Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
+                            break;
+                        case Control c:
+                            c.Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
+                            break;
+                        case Border b:
+                            b.Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
+                            break;
+                    }
+                }
+            }
         }
 
         private static byte percentToByte(int value)
