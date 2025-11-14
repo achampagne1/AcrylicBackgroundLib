@@ -115,19 +115,23 @@ AccentState = 4  // Acrylic blur
 
 ✨ Example Window
 ```xml
-<Window
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:acrylic="clr-namespace:AcrylicBackgroundLib;assembly=AcrylicBackgroundLib"
-    acrylic:BlurEffect.IsEnabled="True"
-    acrylic:BlurEffect.AccentState="4"
-    acrylic:BlurEffect.BlurOpacity="30"
-    acrylic:BlurEffect.BackgroundColor="0x1c1c1c"
-    Title="My Acrylic Window"
-    Height="450"
-    Width="800">
-    
-    <!-- your UI -->
+<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:acrylic="clr-namespace:AcrylicBackgroundLib;assembly=AcrylicBackgroundLib"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        acrylic:BlurEffect.IsEnabled="True" <!--Enables blur -->
+        acrylic:BlurEffect.AccentState="4" <!--Sets Accent State -->
+        acrylic:BlurEffect.BlurOpacity="20" <!--Sets Opacity -->
+        acrylic:BlurEffect.BackgroundColor="0xffffff" <!--Sets Color -->
+        Title="MainWindow" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+
+    </Grid>
 </Window>
 ```
 
