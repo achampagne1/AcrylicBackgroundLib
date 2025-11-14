@@ -2,6 +2,8 @@ AcrylicBackgroundLib
 
 A tiny, simple WPF helper library that enables Windows 10/11 acrylic blur on any WPF window with just a few XAML attributes.
 
+![Example](images/example.JPG)
+
 The library is designed to be minimal, flexible, and non-opinionated.
 You keep full control over your UI — this library only applies the blur.
 
