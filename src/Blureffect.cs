@@ -12,7 +12,7 @@ namespace AcrylicBackgroundLib
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
-        // --- Attached Dependency Properties ---
+        // Dependency Properties for setting values
         public static readonly DependencyProperty IsEnabledProperty =
             DependencyProperty.RegisterAttached(
                 "IsEnabled",
@@ -57,14 +57,14 @@ namespace AcrylicBackgroundLib
         // --- Property Changed Logic ---
         private static void OnBlurPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is not Window window)
+            if (d is not Window window) //returns if not a window
                 return;
 
-            // Only hook once
-            window.SourceInitialized -= sourceInitialized;
-            window.WindowStyle = WindowStyle.None;
+            window.SourceInitialized -= sourceInitialized; //remove previous handler to avoid multiple calls
+            window.AllowsTransparency = true; //allows window transparency
+            window.WindowStyle = WindowStyle.None; //sets window style to none
             if (GetIsEnabled(window))
-                window.SourceInitialized += sourceInitialized;
+                window.SourceInitialized += sourceInitialized; //add handler for source initialized
         }
 
         private static void sourceInitialized(object? sender, EventArgs e)
@@ -77,11 +77,12 @@ namespace AcrylicBackgroundLib
 
         private static void applyBlur(Window window)
         {
-            window.Background = Brushes.Transparent;
-            var accent = new AccentPolicy
+            window.Background = Brushes.Transparent; //sets window background to transparent
+            var accent = new AccentPolicy //new accent policy for blur effect
             {
                 AccentState = GetAccentState(window),
-                GradientColor = ((uint)percentToByte(GetBlurOpacity(window)) << 24) | (uint)GetBackgroundColor(window) & 0xFFFFFF
+                //NOTE: top byte is alpha value, the rest is rgb
+                GradientColor = ((uint)percentToByte(GetBlurOpacity(window)) << 24) | rgbToBgr((uint)GetBackgroundColor(window))
             };
 
             int accentStructSize = Marshal.SizeOf(accent);
@@ -120,11 +121,23 @@ namespace AcrylicBackgroundLib
             }
         }
 
+        //helper funciton for converting percentage to byte value
         private static byte percentToByte(int value)
         {
             if(value < 0) value = 0;   
             if(value > 100) value = 100;
             return (byte)(value * 255 / 100);
         }
+
+        //helper function for converting RGB to BGR format
+        private static uint rgbToBgr(uint color)
+        {
+            uint r = (color & 0x000000FF) << 16;
+            uint g = (color & 0x0000FF00);
+            uint b = (color & 0x00FF0000) >> 16;
+
+            return r | g | b;
+        }
+
     }
 }
