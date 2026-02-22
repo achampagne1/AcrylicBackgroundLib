@@ -7,23 +7,23 @@ A tiny, simple WPF helper library that enables Windows 10/11 acrylic blur on any
 The library is designed to be minimal, flexible, and non-opinionated.
 You keep full control over your UI, this library only applies the blur.
 
-⭐ Features
+**Features**
 
-✔️ Enable acrylic / blur behind a WPF window
+* Enable acrylic / blur behind a WPF window
 
-✔️ Adjustable opacity
+* Adjustable opacity
 
-✔️ Custom RGB background color
+* Custom RGB background color
 
-✔️ Supports all Windows Accent states
+* Supports all Windows Accent states
 
-✔️ Automatically sets WindowStyle=None so you are free to design your own chrome
+* Automatically sets WindowStyle=None so you are free to design your own chrome
 
-✔️ Extremely simple to use, zero C# code required
+* Extremely simple to use, zero C# code required
 
-✔️ Works on .NET 6/7/8 WPF
+* Works on .NET 6/7/8 WPF
 
-📥 Installation
+**Installation**
 
 You can install the library in two ways:
 
@@ -42,9 +42,9 @@ AcrylicBackgroundLib/bin/Release/net8.0-windows/AcrylicBackgroundLib.dll
 Option 2 — Download Precompiled DLL
 
 Go to:
-👉 Releases → Download AcrylicBackgroundLib.dll
+* Releases -> Download AcrylicBackgroundLib.dll
 
-🔧 Add the DLL to Your WPF Project
+* Add the DLL to Your WPF Project
 
 Edit your .csproj file and add:
 
@@ -57,7 +57,7 @@ Edit your .csproj file and add:
 </ItemGroup>
 ```
 
-🖼️ Enable Acrylic Blur in Your Window
+**Enable Acrylic Blur in Your Window**
 
 In your MainWindow.xaml:
 
@@ -76,7 +76,7 @@ acrylic:BlurEffect.BackgroundColor="0x2600ff"
 That's it.
 The blur applies automatically when the window initializes.
 
-⚠️ Important Notes
+**Important Notes**
 The library removes the default window chrome
 
 The library sets:
@@ -96,7 +96,7 @@ All top-level children get a nearly-transparent background
 
 This prevents the window from minimizing when clicking empty areas.
 
-🎨 Accent States Explained
+**Accent States Explained**
 
 AccentState controls which effect is applied.
 ```xml
@@ -115,7 +115,7 @@ Recommended:
 AccentState = 4  // Acrylic blur
 ```
 
-✨ Example Window
+**Example Window**
 ```xml
 <Window x:Class="WpfApp1.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -137,7 +137,7 @@ AccentState = 4  // Acrylic blur
 </Window>
 ```
 
-📦 Library Source Code
+**Library Source Code**
 
 The full library code is included in the repository and is intended to be readable and modifiable.
 It contains:
@@ -150,7 +150,7 @@ Alpha + RGB/BGR color handling
 
 Window behavior fixes
 
-❤️ Philosophy
+**Philosophy**
 
 This library is intentionally:
 
@@ -166,6 +166,6 @@ Zero external dependencies
 
 You're free to build any custom chrome, any layout, any UI behavior — the library only gives you the blur.
 
-📝 License
+**License**
 
 MIT License.
