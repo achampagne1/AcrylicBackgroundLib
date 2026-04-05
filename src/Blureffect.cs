@@ -37,9 +37,9 @@ namespace AcrylicBackgroundLib
         public static readonly DependencyProperty BackgroundColorProperty =
             DependencyProperty.RegisterAttached(
                 "BackgroundColor",
-                typeof(int),
+                typeof(string),
                 typeof(BlurEffect),
-                new PropertyMetadata(0x000000, OnBlurPropertyChanged));
+                new PropertyMetadata("0x000000", OnBlurPropertyChanged));
 
         // --- Getters/Setters ---
         public static bool GetIsEnabled(DependencyObject obj) => (bool)obj.GetValue(IsEnabledProperty);
@@ -51,9 +51,9 @@ namespace AcrylicBackgroundLib
         public static int GetBlurOpacity(DependencyObject obj) => (int)obj.GetValue(BlurOpacityProperty);
         public static void SetBlurOpacity(DependencyObject obj, int value) => obj.SetValue(BlurOpacityProperty, value);
 
-        public static int GetBackgroundColor(DependencyObject obj) => (int)obj.GetValue(BackgroundColorProperty);
-        public static void SetBackgroundColor(DependencyObject obj, int value) => obj.SetValue(BackgroundColorProperty, value);
-
+        public static string GetBackgroundColor(DependencyObject obj) => obj.GetValue(BackgroundColorProperty).ToString();
+        public static void SetBackgroundColor(DependencyObject obj, string value) => obj.SetValue(BackgroundColorProperty, value);
+        
         // --- Property Changed Logic ---
         private static void OnBlurPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -82,7 +82,7 @@ namespace AcrylicBackgroundLib
             {
                 AccentState = GetAccentState(window),
                 //NOTE: top byte is alpha value, the rest is rgb
-                GradientColor = ((uint)percentToByte(GetBlurOpacity(window)) << 24) | rgbToBgr((uint)GetBackgroundColor(window))
+                GradientColor = ((uint)percentToByte(GetBlurOpacity(window)) << 24) | rgbToBgr((uint)toInt(GetBackgroundColor(window)))
             };
 
             int accentStructSize = Marshal.SizeOf(accent);
@@ -121,7 +121,25 @@ namespace AcrylicBackgroundLib
             }
         }
 
-        //helper funciton for converting percentage to byte value
+        //helper function for converting hex color string to int value
+        private static int toInt(string hex)
+        {
+            if (string.IsNullOrEmpty(hex))
+                return 0x000000;
+            
+            if (hex.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                hex = hex.Substring(2);
+
+            else if (hex.StartsWith("#"))
+                hex = hex.Substring(1);
+
+            if (int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out int color))
+                return color;
+
+            return 0x000000; 
+        }
+
+        //helper function for converting percentage to byte value
         private static byte percentToByte(int value)
         {
             if(value < 0) value = 0;   
